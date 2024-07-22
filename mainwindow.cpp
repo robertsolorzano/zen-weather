@@ -6,7 +6,31 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QPainter>
+#include <QSvgWidget>
+#include <QMap>
 #include <cstdlib> // For getenv
+
+// Icon mapping
+QMap<QString, QString> iconMap = {
+    {"01d", ":/icons/wi-day-sunny.svg"},
+    {"01n", ":/icons/wi-night-clear.svg"},
+    {"02d", ":/icons/wi-day-cloudy.svg"},
+    {"02n", ":/icons/wi-night-alt-cloudy.svg"},
+    {"03d", ":/icons/wi-cloud.svg"},
+    {"03n", ":/icons/wi-cloud.svg"},
+    {"04d", ":/icons/wi-cloudy.svg"},
+    {"04n", ":/icons/wi-cloudy.svg"},
+    {"09d", ":/icons/wi-showers.svg"},
+    {"09n", ":/icons/wi-night-alt-showers.svg"},
+    {"10d", ":/icons/wi-rain.svg"},
+    {"10n", ":/icons/wi-night-alt-rain.svg"},
+    {"11d", ":/icons/wi-thunderstorm.svg"},
+    {"11n", ":/icons/wi-night-alt-thunderstorm.svg"},
+    {"13d", ":/icons/wi-snow.svg"},
+    {"13n", ":/icons/wi-night-alt-snow.svg"},
+    {"50d", ":/icons/wi-fog.svg"},
+    {"50n", ":/icons/wi-night-fog.svg"}
+};
 
 // Constructor for MainWindow
 MainWindow::MainWindow(QWidget *parent)
@@ -17,9 +41,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this); // Set up the UI components
 
-    // Initialize the weather icon label
-    weatherIconLabel = new QLabel(this);
-    weatherIconLabel->setGeometry(380, 10, 100, 100); // Adjust the position and size as needed
+    // Initialize the weather icon widget
+    weatherIconWidget = new QSvgWidget(this);
+    weatherIconWidget->setGeometry(350, 10, 100, 100); // Adjust the position and size as needed
 
     // Fetch the user's location and weather data
     fetchLocation();
@@ -127,38 +151,22 @@ void MainWindow::onWeatherDataReceived(QNetworkReply* reply)
             QString description = weather["description"].toString();
             ui->descriptionLabel->setText(description);
 
-            // Get the weather icon code and fetch the icon
+            // Get the weather icon code and display the icon
             QString iconCode = weather["icon"].toString();
-            fetchWeatherIcon(iconCode);
+            displayWeatherIcon(iconCode);
         }
     }
 
     reply->deleteLater();
 }
 
-// Method to fetch weather icon
-void MainWindow::fetchWeatherIcon(const QString &iconCode)
+// Method to display weather icon
+void MainWindow::displayWeatherIcon(const QString &iconCode)
 {
-    QString iconUrl = QString("http://openweathermap.org/img/wn/%1.png").arg(iconCode);
-    QNetworkRequest request((QUrl(iconUrl)));
-    disconnect(networkManager, &QNetworkAccessManager::finished, this, &MainWindow::onWeatherDataReceived);
-    connect(networkManager, &QNetworkAccessManager::finished, this, &MainWindow::onIconDataReceived);
-    networkManager->get(request);
-}
-
-// Slot that gets called when weather icon is received
-void MainWindow::onIconDataReceived(QNetworkReply* reply)
-{
-    if (reply->error() != QNetworkReply::NoError) {
-        QMessageBox::critical(this, "Error", "Failed to fetch weather icon");
-        return;
+    if (iconMap.contains(iconCode)) {
+        QString iconPath = iconMap[iconCode];
+        weatherIconWidget->load(iconPath);
+    } else {
+        QMessageBox::warning(this, "Warning", "Weather icon not found");
     }
-
-    // Load the icon image from the response
-    QByteArray response = reply->readAll();
-    QPixmap pixmap;
-    pixmap.loadFromData(response);
-    weatherIconLabel->setPixmap(pixmap);
-
-    reply->deleteLater();
 }

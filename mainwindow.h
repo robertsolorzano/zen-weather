@@ -6,6 +6,7 @@
 #include <QNetworkReply>
 #include <QPixmap>
 #include <QResizeEvent>
+#include <QSvgWidget>
 #include <QLabel>
 
 QT_BEGIN_NAMESPACE
@@ -29,16 +30,15 @@ protected:
 private slots:
     void onWeatherDataReceived(QNetworkReply* reply); // Slot to handle API response
     void onLocationDataReceived(QNetworkReply* reply); // Slot to handle location API response
-    void onIconDataReceived(QNetworkReply* reply); // Slot to handle icon image response
 
 private:
     Ui::MainWindow *ui;
     QNetworkAccessManager *networkManager; // Manager to handle network requests
     void fetchWeatherData(const QString &city); // Method to fetch weather data
     void fetchLocation(); // Method to fetch the user's location
-    void fetchWeatherIcon(const QString &iconCode); // Method to fetch weather icon
+    void displayWeatherIcon(const QString &iconCode); // Method to display weather icon
     QPixmap backgroundPixmap;
-    QLabel *weatherIconLabel;
+    QSvgWidget *weatherIconWidget; // Widget to display SVG icons
 };
 
 #endif // MAINWINDOW_H
