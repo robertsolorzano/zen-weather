@@ -8,6 +8,7 @@
 #include <QResizeEvent>
 #include <QSvgWidget>
 #include <QLabel>
+#include <QBuffer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -39,6 +40,8 @@ private:
     void displayWeatherIcon(const QString &iconCode); // Method to display weather icon
     QPixmap backgroundPixmap;
     QSvgWidget *weatherIconWidget; // Widget to display SVG icons
+
+    QString modifySvgColor(const QString &filePath, const QString &color); // Method to modify SVG color
 };
 
 #endif // MAINWINDOW_H

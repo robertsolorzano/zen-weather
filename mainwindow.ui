@@ -25,26 +25,14 @@ QLineEdit {
     background: #ffffff;
 }
 
-QPushButton {
-    background-color: #8e44ad;
-    color: #ffffff;
-    border: none;
-    border-radius: 10px;
-    padding: 5px 15px;
-}
-
-QPushButton:hover {
-    background-color: #732d91; 
-}
-
 QLabel#temperatureLabel {
     font-size: 18px;
-    color: #7f8c8d;
+    color: #f28fac;
 }
 
 QLabel#descriptionLabel {
     font-size: 18px;
-    color: #7f8c8d; 
+    color: #f28fac; 
 }
 </string>
   </property>
