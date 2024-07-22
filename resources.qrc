@@ -2,4 +2,22 @@
     <qresource prefix="/images">
         <file>images/background.jpg</file>
     </qresource>
+    <qresource prefix="/">
+        <file>icons/wi-cloud.svg</file>
+        <file>icons/wi-cloudy.svg</file>
+        <file>icons/wi-day-cloudy.svg</file>
+        <file>icons/wi-day-sunny.svg</file>
+        <file>icons/wi-fog.svg</file>
+        <file>icons/wi-night-alt-cloudy.svg</file>
+        <file>icons/wi-night-alt-rain.svg</file>
+        <file>icons/wi-night-alt-showers.svg</file>
+        <file>icons/wi-night-alt-snow.svg</file>
+        <file>icons/wi-night-alt-thunderstorm.svg</file>
+        <file>icons/wi-night-clear.svg</file>
+        <file>icons/wi-night-fog.svg</file>
+        <file>icons/wi-rain.svg</file>
+        <file>icons/wi-showers.svg</file>
+        <file>icons/wi-snow.svg</file>
+        <file>icons/wi-thunderstorm.svg</file>
+    </qresource>
 </RCC>
