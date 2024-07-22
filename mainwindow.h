@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QPixmap>
+#include <QResizeEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -19,14 +21,20 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+protected:
+    void paintEvent(QPaintEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
+
 private slots:
-    void on_fetchWeatherButton_clicked();
     void onWeatherDataReceived(QNetworkReply* reply); // Slot to handle API response
+    void onLocationDataReceived(QNetworkReply* reply); // Slot to handle location API response
 
 private:
     Ui::MainWindow *ui;
     QNetworkAccessManager *networkManager; // Manager to handle network requests
     void fetchWeatherData(const QString &city); // Method to fetch weather data
+    void fetchLocation(); // Method to fetch the user's location
+    QPixmap backgroundPixmap;
 };
 
 #endif // MAINWINDOW_H

@@ -5,6 +5,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QPainter>
 #include <cstdlib> // For getenv
 
 // Constructor for MainWindow
@@ -12,14 +13,12 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , networkManager(new QNetworkAccessManager(this)) // Initialize the network manager
+    , backgroundPixmap(":/images/images/background.jpg") // Load the background image
 {
     ui->setupUi(this); // Set up the UI components
 
-    // Connect the fetchWeatherButton's clicked signal to the on_fetchWeatherButton_clicked slot
-    connect(ui->fetchWeatherButton, &QPushButton::clicked, this, &MainWindow::on_fetchWeatherButton_clicked);
-
-    // Connect the network manager's finished signal to the onWeatherDataReceived slot
-    connect(networkManager, &QNetworkAccessManager::finished, this, &MainWindow::onWeatherDataReceived);
+    // Fetch the user's location and weather data
+    fetchLocation();
 }
 
 // Destructor for MainWindow
@@ -28,14 +27,54 @@ MainWindow::~MainWindow()
     delete ui; // Clean up the UI pointer
 }
 
-// Slot that gets called when fetchWeatherButton is clicked
-void MainWindow::on_fetchWeatherButton_clicked()
+// Custom paint event to draw the background image
+void MainWindow::paintEvent(QPaintEvent *event)
 {
-    // Get the text from the cityLineEdit widget
-    QString city = ui->cityLineEdit->text();
+    QPainter painter(this);
 
-    // Fetch weather data for the entered city
-    fetchWeatherData(city);
+    // Draw the background image scaled to the window size
+    painter.drawPixmap(rect(), backgroundPixmap);
+
+    // Call the base class implementation
+    QMainWindow::paintEvent(event);
+}
+
+// Custom resize event to ensure the background is repainted when the window is resized
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    QMainWindow::resizeEvent(event);
+    update();
+}
+
+// Method to fetch the user's location
+void MainWindow::fetchLocation()
+{
+    QNetworkRequest request(QUrl("http://ip-api.com/json"));
+    disconnect(networkManager, &QNetworkAccessManager::finished, this, &MainWindow::onWeatherDataReceived);
+    connect(networkManager, &QNetworkAccessManager::finished, this, &MainWindow::onLocationDataReceived);
+    networkManager->get(request);
+}
+
+// Slot that gets called when location data is received
+void MainWindow::onLocationDataReceived(QNetworkReply* reply)
+{
+    if (reply->error() != QNetworkReply::NoError) {
+        QMessageBox::critical(this, "Error", "Failed to fetch location data");
+        return;
+    }
+
+    // Read the response data
+    QByteArray response = reply->readAll();
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(response);
+    QJsonObject jsonObj = jsonDoc.object();
+
+    // Parse the JSON data to get the city
+    if (jsonObj.contains("city")) {
+        QString city = jsonObj["city"].toString();
+        fetchWeatherData(city);
+    }
+
+    reply->deleteLater();
 }
 
 // Method to fetch weather data from the API
@@ -51,13 +90,15 @@ void MainWindow::fetchWeatherData(const QString &city)
     QString url = QString("https://api.openweathermap.org/data/2.5/weather?q=%1&appid=%2&units=imperial").arg(city, apiKey);
 
     // Make a GET request to the weather API
-    networkManager->get(QNetworkRequest(QUrl(url)));
+    QNetworkRequest request((QUrl(url)));
+    disconnect(networkManager, &QNetworkAccessManager::finished, this, &MainWindow::onLocationDataReceived);
+    connect(networkManager, &QNetworkAccessManager::finished, this, &MainWindow::onWeatherDataReceived);
+    networkManager->get(request);
 }
 
 // Slot that gets called when weather data is received from the API
 void MainWindow::onWeatherDataReceived(QNetworkReply* reply)
 {
-    // Check for network errors
     if (reply->error() != QNetworkReply::NoError) {
         QMessageBox::critical(this, "Error", "Failed to fetch weather data");
         return;
@@ -72,7 +113,7 @@ void MainWindow::onWeatherDataReceived(QNetworkReply* reply)
     if (jsonObj.contains("main")) {
         QJsonObject main = jsonObj["main"].toObject();
         double temperature = main["temp"].toDouble();
-        ui->temperatureLabel->setText(QString::number(temperature) + " °C");
+        ui->temperatureLabel->setText(QString::number(temperature) + " °F");
     }
 
     if (jsonObj.contains("weather")) {

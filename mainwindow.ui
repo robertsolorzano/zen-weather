@@ -6,61 +6,73 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>779</width>
+    <height>395</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow {
+    background-color: #f5f5f5;
+}
+
+QLineEdit {
+    border: 2px solid #8f8f8f;
+    border-radius: 10px;
+    padding: 5px;
+    background: #ffffff;
+}
+
+QPushButton {
+    background-color: #8e44ad;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 15px;
+}
+
+QPushButton:hover {
+    background-color: #732d91; 
+}
+
+QLabel#temperatureLabel {
+    font-size: 18px;
+    color: #7f8c8d;
+}
+
+QLabel#descriptionLabel {
+    font-size: 18px;
+    color: #7f8c8d; 
+}
+</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLineEdit" name="cityLineEdit">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>10</y>
-      <width>210</width>
-      <height>71</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="fetchWeatherButton">
-    <property name="geometry">
-     <rect>
-      <x>520</x>
-      <y>30</y>
-      <width>101</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Fetch Weather</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="temperatureLabel">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>160</y>
-      <width>58</width>
+      <x>300</x>
+      <y>100</y>
+      <width>81</width>
       <height>18</height>
      </rect>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>temp</string>
     </property>
    </widget>
    <widget class="QLabel" name="descriptionLabel">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>160</y>
-      <width>58</width>
+      <x>430</x>
+      <y>100</y>
+      <width>81</width>
       <height>18</height>
      </rect>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>cond</string>
     </property>
    </widget>
   </widget>
@@ -69,7 +81,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>779</width>
      <height>23</height>
     </rect>
    </property>
