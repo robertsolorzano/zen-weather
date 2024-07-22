@@ -5,6 +5,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <cstdlib> // For getenv
 
 // Constructor for MainWindow
 MainWindow::MainWindow(QWidget *parent)
@@ -40,9 +41,14 @@ void MainWindow::on_fetchWeatherButton_clicked()
 // Method to fetch weather data from the API
 void MainWindow::fetchWeatherData(const QString &city)
 {
-    // Define the API key and the URL for the weather API
-    QString apiKey = "a14e91e6cc4118d2abc0f1608eeff13d";
-    QString url = QString("https://api.openweathermap.org/data/2.5/weather?q=%1&appid=%2&units=metric").arg(city, apiKey);
+    // Fetch the API key from the environment variable
+    const char* apiKey = std::getenv("WEATHER_API_KEY");
+    if (!apiKey) {
+        QMessageBox::critical(this, "Error", "API key not set in environment variables");
+        return;
+    }
+
+    QString url = QString("https://api.openweathermap.org/data/2.5/weather?q=%1&appid=%2&units=imperial").arg(city, apiKey);
 
     // Make a GET request to the weather API
     networkManager->get(QNetworkRequest(QUrl(url)));
