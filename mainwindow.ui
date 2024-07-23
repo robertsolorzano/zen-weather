@@ -55,7 +55,7 @@ QLabel#descriptionLabel {
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>0</y>
+      <y>10</y>
       <width>111</width>
       <height>41</height>
      </rect>
@@ -68,7 +68,7 @@ QLabel#descriptionLabel {
     <property name="geometry">
      <rect>
       <x>490</x>
-      <y>0</y>
+      <y>10</y>
       <width>111</width>
       <height>41</height>
      </rect>
