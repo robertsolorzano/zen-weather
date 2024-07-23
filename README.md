@@ -1,4 +1,4 @@
-# zen-weather
+# zen-weather ![License](https://img.shields.io/badge/License-MIT-pink.svg) 
 
 ![preview](/assets/preview.png)
 
