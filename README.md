@@ -31,7 +31,7 @@ Zen Weather App is a minimalistic and aesthetically pleasing desktop application
 
 2. **Set up the environment variables:**
 
-    Add your OpenWeatherMap API key to your shell configuration file (`~/.zshrc` for zsh or `~/.bashrc` for bash).
+    Add your OpenWeatherMap API key to your shell configuration file (`~/.zshrc` or `~/.bashrc`).
 
     ```bash
     echo 'export WEATHER_API_KEY=your_api_key_here' >> ~/.zshrc
