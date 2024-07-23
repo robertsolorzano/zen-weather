@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>779</width>
-    <height>395</height>
+    <width>781</width>
+    <height>358</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,12 +27,26 @@ QLineEdit {
 
 QLabel#temperatureLabel {
     font-size: 18px;
-    color: #f28fac;
+    color: #ffffff;
+    border: 2px solid #aae9b2;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: #151320;
+    text-align: center;
+    vertical-align: middle;
+    qproperty-alignment: 'AlignCenter';
 }
 
 QLabel#descriptionLabel {
     font-size: 18px;
-    color: #f28fac; 
+    color: #ffffff;
+    border: 2px solid #aae9b2;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: #151320;
+    text-align: center;
+    vertical-align: middle;
+    qproperty-alignment: 'AlignCenter';
 }
 </string>
   </property>
@@ -40,10 +54,10 @@ QLabel#descriptionLabel {
    <widget class="QLabel" name="temperatureLabel">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>100</y>
-      <width>81</width>
-      <height>18</height>
+      <x>200</x>
+      <y>0</y>
+      <width>111</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
@@ -53,10 +67,10 @@ QLabel#descriptionLabel {
    <widget class="QLabel" name="descriptionLabel">
     <property name="geometry">
      <rect>
-      <x>430</x>
-      <y>100</y>
-      <width>81</width>
-      <height>18</height>
+      <x>490</x>
+      <y>0</y>
+      <width>111</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
@@ -69,7 +83,7 @@ QLabel#descriptionLabel {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>779</width>
+     <width>781</width>
      <height>23</height>
     </rect>
    </property>
